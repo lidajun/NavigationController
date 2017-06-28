@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:text="Video decoding recommendations
+Device implementations must support dynamic video resolution and frame rate switching through the standard Android APIs within the same stream for all VP8, VP9, H.264, and H.265 codecs in real time and up to the maximum resolution supported by each codec on the device.
+
+Implementations that support the Dolby Vision decoder must follow these guidelines:
+
+Provide a Dolby Vision-capable extractor.
+Properly display Dolby Vision content on the device screen or on a standard video output port (e.g., HDMI).
+Set the track index of backward-compatible base-layer(s) (if present) to be the same as the combined Dolby Vision layer's track index.
+Video streaming requirements
+For video content that is streamed over HTTP or RTSP, there are additional requirements:
+
+For 3GPP and MPEG-4 containers, the moov atom must precede any mdat atoms, but must succeed the ftyp atom.
+For 3GPP, MPEG-4, and WebM containers, audio and video samples corresponding to the same time offset may be no more than 500 KB apart. To minimize this audio/video drift, consider interleaving audio and video in smaller chunk sizes.
+"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/btn_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="next"/>
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:text="This document describes the media codec, container, and network protocol support provided by the Android platform.
+
+As an application developer, you can use any media codec that is available on any Android-powered device, including those provided by the Android platform and those that are device-specific. However, it is a best practice to use media encoding profiles that are device- agnostic.
+
+The tables below describe the media format support built into the Android platform. Codecs that are not guaranteed to be available on all Android platform versions are noted in parentheses, for example: (Android 3.0+). Note that any given mobile device might support other formats or file types that are not listed in the table.
+
+As stated in section 5 of the Android Compatibility Definition document, all device implementations must support the core media formats specified on this page, except where explicitly noted.
+
+"
+        android:textSize="18sp"/>
+</LinearLayout>

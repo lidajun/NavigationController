@@ -13,13 +13,13 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.lurenshuo.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <type>pom</type>
 </dependency>
 ```
 or Gradle:
 ```groovy
-compile 'com.lurenshuo.android:navigation-controller:1.0.1'
+compile 'com.lurenshuo.android:navigation-controller:1.0.2'
 ```
 
 ------------------------------------------------------------------------------
@@ -28,13 +28,13 @@ Suitable for use with fragment projects, fragment need extends to NavigationFrag
 2. cannot use fragmentTransaction.setTransition(XXX), otherwise there is no animation of Navigation view 
 3. add the switch animation with two parameters, the two parameters are only to do the start of the animation, popBackTack animation by NavigationActivity, transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,R.animator.fragment_slide_left_exit);
 
-If you use toolbar, you need to use Navigationtoolbar for example:
+If you use toolbar, you need to use NavigationToolbar for example:
 
 ```xml
- <com.lurenshuo.navigationcontroller.widget.NavigationToolbar
+<com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="50dp"        
+    android:layout_height="50dp"
     android:background="@color/colorPrimaryDark"/>
 ```
 --------------------------------------------------------------------------------
@@ -47,10 +47,10 @@ If you use toolbar, you need to use Navigationtoolbar for example:
 如果使用Toolbar，需要使用NavigationToolbar 例如：
 
 ```xml
- <com.lurenshuo.navigationcontroller.widget.NavigationToolbar
+<com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="50dp"        
+    android:layout_height="50dp"
     android:background="@color/colorPrimaryDark"/>
 ```
 

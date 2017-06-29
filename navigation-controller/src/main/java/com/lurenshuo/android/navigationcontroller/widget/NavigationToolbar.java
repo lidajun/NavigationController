@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import com.lurenshuo.android.navigationcontroller.R;
 import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
-import com.lurenshuo.navigationcontroller.R;
 
 /**
  * Created by lidajun on 17-6-23.

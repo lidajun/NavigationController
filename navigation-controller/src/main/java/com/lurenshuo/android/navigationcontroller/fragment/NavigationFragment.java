@@ -40,7 +40,7 @@ public abstract class NavigationFragment extends Fragment implements NavigationT
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NavigationFragmentUtil.created(mActivity);
+        mActivity.mFragmentHelper.created();
         if (null != mActivity.mNavigationToolbar) {
             mAnimatorTitle = getToolbarTitle();
             mActivity.mNavigationToolbar.mTitleTv.setText(mAnimatorTitle);
@@ -52,14 +52,14 @@ public abstract class NavigationFragment extends Fragment implements NavigationT
     @Override
     public void onResume() {
         super.onResume();
-        NavigationFragmentUtil.initToolbarNavigationText(mActivity,mAnimatorTitle);
+        mActivity.mFragmentHelper.initToolbarNavigationText(mAnimatorTitle);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            NavigationFragmentUtil.initToolbarNavigationText(mActivity,mAnimatorTitle);
+            mActivity.mFragmentHelper.initToolbarNavigationText(mAnimatorTitle);
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class NavigationFragment extends Fragment implements NavigationT
 
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
-        return NavigationFragmentUtil.touchEvent(event, mActivity, new PopBackListener() {
+        return mActivity.mFragmentHelper.touchEvent(event, new PopBackListener() {
             @Override
             public void popBack() {
                 getFragmentManager().popBackStack();

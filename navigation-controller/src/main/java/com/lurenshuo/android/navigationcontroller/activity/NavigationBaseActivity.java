@@ -9,6 +9,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.lurenshuo.android.navigationcontroller.fragment.NavigationFragmentHelper;
 import com.lurenshuo.android.navigationcontroller.listener.NavigationTouchListener;
 import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
 import com.lurenshuo.android.navigationcontroller.utils.ScreenUtil;
@@ -41,7 +42,8 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
     public boolean inNavigation = false;
     //已确定事件分发
     protected boolean determined = false;
-
+    //fragment帮助类
+    public NavigationFragmentHelper mFragmentHelper;
     /**
      * 模式
      * 全屏or边
@@ -59,6 +61,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
         mGestureDetector = new GestureDetector(this, new MyDetector());
         mScreenWidth = ScreenUtil.getScreenWidth(this);
         edgeSize = mScreenWidth / EDGE_SIZE;
+        mFragmentHelper = new NavigationFragmentHelper(this);
     }
 
     @Override
@@ -253,6 +256,15 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
      * 在根fragment时按返回键
      */
     protected abstract void backPressed();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFragmentHelper = null;
+        mGestureDetector = null;
+        mListeners = null;
+        mNavigationToolbar = null;
+    }
 
     private class MyDetector extends GestureDetector.SimpleOnGestureListener {
         /**

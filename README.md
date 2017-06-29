@@ -13,13 +13,13 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.lurenshuo.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
 or Gradle:
 ```groovy
-compile 'com.lurenshuo.android:navigation-controller:1.0.0'
+compile 'com.lurenshuo.android:navigation-controller:1.0.1'
 ```
 
 ------------------------------------------------------------------------------

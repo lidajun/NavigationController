@@ -30,7 +30,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
     public boolean inAnimator = false;
     public int mScreenWidth;
     // 保存MyTouchListener接口的列表
-    protected ArrayList<NavigationTouchListener> mListeners = new ArrayList<>();
+    public ArrayList<NavigationTouchListener> mListeners = new ArrayList<>();
     public Mode mMode = Mode.edge;
     protected GestureDetector mGestureDetector;
     //边的大小，屏幕的20分之1
@@ -44,6 +44,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
     protected boolean determined = false;
     //fragment帮助类
     public NavigationFragmentHelper mFragmentHelper;
+
     /**
      * 模式
      * 全屏or边
@@ -59,14 +60,14 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mGestureDetector = new GestureDetector(this, new MyDetector());
-        mScreenWidth = ScreenUtil.getScreenWidth(this);
-        edgeSize = mScreenWidth / EDGE_SIZE;
+        initScreenSize();
         mFragmentHelper = new NavigationFragmentHelper(this);
     }
 
     @Override
     public void onContentChanged() {
         super.onContentChanged();
+        initScreenSize();
         mNavigationToolbar = initNavigationToolbar();
         if (null != mNavigationToolbar) {
             mNavigationToolbar.mNavigationTv.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +77,11 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void initScreenSize() {
+        mScreenWidth = ScreenUtil.getScreenWidth(this);
+        edgeSize = mScreenWidth / EDGE_SIZE;
     }
 
     @Override
@@ -178,6 +184,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
      */
     protected void registerNavigationTouchListener(NavigationTouchListener listener) {
         mListeners.add(listener);
+        viewChange(mListeners.size());
     }
 
     /**
@@ -233,6 +240,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
                 if (value >= PX) {
                     //让栈顶的fragment出栈
                     getFragmentManager().popBackStack();
+                    viewChange(mListeners.size() - 1);
                 }
                 popBackView.setVisibility(View.VISIBLE);
                 currentView.setX(value);
@@ -256,6 +264,14 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
      * 在根fragment时按返回键
      */
     protected abstract void backPressed();
+
+    /**
+     * 功换view
+     * Start at page 1
+     * @param page 从1页开始
+     */
+    public void viewChange(float page) {
+    }
 
     @Override
     protected void onDestroy() {

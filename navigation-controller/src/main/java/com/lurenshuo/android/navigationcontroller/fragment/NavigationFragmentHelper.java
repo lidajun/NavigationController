@@ -111,6 +111,7 @@ public class NavigationFragmentHelper {
                     vX = 0;
                 }
                 currentView.setX(vX);
+                mActivity.viewChange(mActivity.mListeners.size() - vX / mActivity.mScreenWidth);
                 if (navigationView.getVisibility() != View.VISIBLE) {
                     navigationView.setVisibility(View.VISIBLE);
                 }
@@ -234,6 +235,9 @@ public class NavigationFragmentHelper {
                 if (null != view) {
                     float value = (float) animation.getAnimatedValue();
                     view.setX(value);
+                    if (view == mActivity.getCurrentView() && (to == mActivity.mScreenWidth || to == 0)) {
+                        mActivity.viewChange(mActivity.mListeners.size() - value / mActivity.mScreenWidth);
+                    }
                     //切换视图
                     if (value >= mActivity.mScreenWidth) {
                         if (!TextUtils.isEmpty(mActivity.getNavigationText())) {

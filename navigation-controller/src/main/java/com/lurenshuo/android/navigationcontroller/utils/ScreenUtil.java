@@ -11,19 +11,12 @@ import android.util.DisplayMetrics;
  */
 public class ScreenUtil {
 
-    private static int sScreenWidth;
-
     /**
      * 获取屏幕尺寸
      */
     public static int getScreenWidth(Context context) {
-        if (0 == sScreenWidth) {
-            DisplayMetrics dm = context.getResources().getDisplayMetrics();
-            // 屏幕宽（像素，如：480px）
-            sScreenWidth = dm.widthPixels;
-        }
-        //        int screenHeight = dm.heightPixels; // 屏幕高（像素，如：800px）
-        return sScreenWidth;
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        return dm.widthPixels;
     }
 
     public static int getScreenHeight(Context context) {

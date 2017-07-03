@@ -13,13 +13,13 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.lurenshuo.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <type>pom</type>
 </dependency>
 ```
 or Gradle:
 ```groovy
-compile 'com.lurenshuo.android:navigation-controller:1.0.2'
+compile 'com.lurenshuo.android:navigation-controller:1.0.3'
 ```
 
 ------------------------------------------------------------------------------
@@ -27,6 +27,19 @@ Suitable for use with fragment projects, fragment need extends to NavigationFrag
 1. when adding fragment, Need fragmentTransaction.addToBackStack(null); 
 2. cannot use fragmentTransaction.setTransition(XXX), otherwise there is no animation of Navigation view 
 3. add the switch animation with two parameters, the two parameters are only to do the start of the animation, popBackTack animation by NavigationActivity, transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,R.animator.fragment_slide_left_exit);
+
+Fragment parent activity needs to be configured:
+```xml
+<activity
+    android:name=".FragmentActivity"
+    android:screenOrientation="portrait" />
+```
+or
+```xml
+<activity 
+    android:name=".FragmentActivity"
+    android:configChanges="orientation|screenSize"/>
+```
 
 If you use toolbar, you need to use NavigationToolbar for example:
 
@@ -44,6 +57,18 @@ If you use toolbar, you need to use NavigationToolbar for example:
 2. 不能使用 fragmentTransaction.setTransition(XXX) ,否则没有导航view的动画
 3. 添加切换动画时使用两个参数的，这两个参数的是只做开始的动画，popBackTack的动画由NavigationActivity做 transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,R.animator.fragment_slide_left_exit);
 
+Fragment的父Activity需要配置：
+```xml
+<activity
+    android:name=".FragmentActivity"
+    android:screenOrientation="portrait" />
+```
+or
+```xml
+<activity 
+    android:name=".FragmentActivity"
+    android:configChanges="orientation|screenSize"/>
+```
 如果使用Toolbar，需要使用NavigationToolbar 例如：
 
 ```xml

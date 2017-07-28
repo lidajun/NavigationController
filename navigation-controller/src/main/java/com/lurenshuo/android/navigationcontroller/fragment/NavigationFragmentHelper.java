@@ -54,6 +54,8 @@ public class NavigationFragmentHelper {
         }
     }
 
+    private boolean mTouchMove = false;
+
     boolean touchEvent(final MotionEvent event, PopBackListener popBack) {
         View currentView = mActivity.getCurrentView();
         if (null == currentView) {
@@ -80,6 +82,10 @@ public class NavigationFragmentHelper {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 if (downX > mActivity.edgeSize) {
+                    //防止down的时候动画没做完
+                    if (navigationView.getX() != 0 || currentView.getX() != 0 || mTouchMove) {
+                        resetView(currentView, navigationView, popBack);
+                    }
                     return false;
                 }
                 if (null != mActivity.mNavigationToolbar) {
@@ -92,6 +98,7 @@ public class NavigationFragmentHelper {
                         mActivity.mNavigationToolbar.mNavigationTv.setText(String.format("<%s", mActivity.getNextNavigationText()));
                     }
                 }
+                mTouchMove = false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
@@ -110,7 +117,13 @@ public class NavigationFragmentHelper {
                 if (vX <= 0) {
                     vX = 0;
                 }
+                //防止两个view同时被滑动
+                if (mTouchMove && navigationView.getX() == currentView.getX()) {
+                    resetView(currentView, navigationView, popBack);
+                    return true;
+                }
                 currentView.setX(vX);
+                mTouchMove = true;
                 mActivity.viewChange(mActivity.mListeners.size() - vX / mActivity.mScreenWidth);
                 if (navigationView.getVisibility() != View.VISIBLE) {
                     navigationView.setVisibility(View.VISIBLE);

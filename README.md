@@ -19,6 +19,10 @@ Download or grab via Maven:
 ```
 or Gradle:
 ```groovy
+repositories {
+    jcenter()
+}
+
 compile 'com.lurenshuo.android:navigation-controller:1.0.4'
 ```
 

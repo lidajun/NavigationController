@@ -13,7 +13,7 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.lurenshuo.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -23,7 +23,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.lurenshuo.android:navigation-controller:1.0.4'
+compile 'com.lurenshuo.android:navigation-controller:1.0.5'
 ```
 
 ------------------------------------------------------------------------------

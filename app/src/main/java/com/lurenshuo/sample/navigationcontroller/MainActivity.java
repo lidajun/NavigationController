@@ -2,7 +2,7 @@ package com.lurenshuo.sample.navigationcontroller;
 
 import android.os.Bundle;
 
-import com.lurenshuo.android.navigationcontroller.activity.NavigationActivity;
+import com.lurenshuo.android.navigationcontroller.activity_fragment.NavigationActivity;
 import com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar;
 
 

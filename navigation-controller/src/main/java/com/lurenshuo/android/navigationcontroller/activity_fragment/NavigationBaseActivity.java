@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.activity;
+package com.lurenshuo.android.navigationcontroller.activity_fragment;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
-import com.lurenshuo.android.navigationcontroller.fragment.NavigationFragmentHelper;
 import com.lurenshuo.android.navigationcontroller.listener.NavigationTouchListener;
 import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
 import com.lurenshuo.android.navigationcontroller.utils.ScreenUtil;
@@ -21,29 +21,29 @@ import java.util.ArrayList;
  * Created by lidajun on 17-6-22.
  */
 
-public abstract class NavigationBaseActivity extends AppCompatActivity {
-    protected float mDownY;
-    protected float mDownX;
-    public NavigationToolbar mNavigationToolbar;
-    public float edgeSize = 50;
+abstract class NavigationBaseActivity extends AppCompatActivity {
+    float mDownY;
+    float mDownX;
+    NavigationToolbar mNavigationToolbar;
+    float edgeSize;
     //动画中
     public boolean inAnimator = false;
-    public int mScreenWidth;
+    int mScreenWidth;
     // 保存MyTouchListener接口的列表
-    public ArrayList<NavigationTouchListener> mListeners = new ArrayList<>();
-    public Mode mMode = Mode.edge;
-    protected GestureDetector mGestureDetector;
+    ArrayList<NavigationTouchListener> mListeners = new ArrayList<>();
+    public ScrollMode mScrollMode = ScrollMode.edge;
+    GestureDetector mGestureDetector;
     //边的大小，屏幕的20分之1
-    public int EDGE_SIZE = 20;
+    int EDGE_SIZE = 20;
     //超过多少，跳转，屏幕的4分之1
-    public int NAVI_BOUNDED = 4;
-
+    int NAVI_BOUNDED = 4;
+    private int scrollMinDistance;
     //导航模式开启中
     public boolean inNavigation = false;
     //已确定事件分发
-    protected boolean determined = false;
+    boolean determined = false;
     //fragment帮助类
-    public NavigationFragmentHelper mFragmentHelper;
+    NavigationFragmentHelper mFragmentHelper;
 
     /**
      * 模式
@@ -52,7 +52,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
      * 因为LongClick使用的时间的是move的eventTime和downTime的时间，没有走up，如果不给它down事件，其它的view的事件都会失效
      * 可以把执行longClick时先判断inNavigation,如果不是导航中，再去执行
      */
-    public enum Mode {
+    enum ScrollMode {
         fullScreen, edge
     }
 
@@ -60,8 +60,9 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mGestureDetector = new GestureDetector(this, new MyDetector());
-        initScreenSize();
         mFragmentHelper = new NavigationFragmentHelper(this);
+        scrollMinDistance = ViewConfiguration.get(this).getScaledTouchSlop();
+        initScreenSize();
     }
 
     @Override
@@ -81,7 +82,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
 
     private void initScreenSize() {
         mScreenWidth = ScreenUtil.getScreenWidth(this);
-        edgeSize = mScreenWidth / EDGE_SIZE;
+        edgeSize = Math.max(mScreenWidth / EDGE_SIZE, scrollMinDistance * 2);
     }
 
     @Override
@@ -103,14 +104,14 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
                     return false;
                 }
             }
-            if (mMode == Mode.edge) {
+            if (mScrollMode == ScrollMode.edge) {
                 //如果是边模式，只跟据位置判断
-                if (ev.getX() < mScreenWidth / EDGE_SIZE && ev.getAction() == MotionEvent.ACTION_DOWN) {
+                if (ev.getX() < edgeSize && ev.getAction() == MotionEvent.ACTION_DOWN) {
                     return onTouchEvent(ev);
                 }
-            } else if (mMode == Mode.fullScreen) {
+            } else if (mScrollMode == ScrollMode.fullScreen) {
                 //如果滑到边，按边的模式
-                if (ev.getX() < mScreenWidth / EDGE_SIZE && ev.getAction() == MotionEvent.ACTION_DOWN) {
+                if (ev.getX() < edgeSize && ev.getAction() == MotionEvent.ACTION_DOWN) {
                     return onTouchEvent(ev);
                 }
                 if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -132,9 +133,9 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
                 }
 
                 //判断滑动方向:滑动距离超过50dp
-                if (!scrollDistance50dp(mDownX, mDownY, ev.getRawX(), ev.getRawY()) && !determined) {
+                if (!scrollDistanceMinDistance(mDownX, mDownY, ev.getRawX(), ev.getRawY()) && !determined) {
                     //已确定方向
-                    if (scrollDistance50dp(mDownX, mDownY, ev.getRawX(), ev.getRawY())) {
+                    if (scrollDistanceMinDistance(mDownX, mDownY, ev.getRawX(), ev.getRawY())) {
                         determined = true;
                     }
                     //判断方向，返回true表示确定是左右，返回false，不一定是确定完了，所以要用时间或距离进行确定，如果在时间距离之后，仍然没有确定是左右，那么就是上下了
@@ -168,9 +169,9 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract void popBackStack();
+    abstract void popBackStack();
 
-    protected NavigationTouchListener getLastTouchListener() {
+    NavigationTouchListener getLastTouchListener() {
         if (mListeners.size() > 1) {
             return mListeners.get(mListeners.size() - 1);
         } else {
@@ -182,7 +183,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
      * 注册
      * 把Activity的touch事件传递给fragment
      */
-    protected void registerNavigationTouchListener(NavigationTouchListener listener) {
+    void registerNavigationTouchListener(NavigationTouchListener listener) {
         mListeners.add(listener);
         viewChange(mListeners.size());
     }
@@ -191,15 +192,15 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
      * 取消
      * 把Activity的touch事件传递给fragment
      */
-    protected void unRegisterNavigationTouchListener(NavigationTouchListener listener) {
+    void unRegisterNavigationTouchListener(NavigationTouchListener listener) {
         mListeners.remove(listener);
     }
 
     /**
-     * @return 滑动的距离超过50dp
+     * @return 滑动的距离超过最小识别距离
      */
-    protected boolean scrollDistance50dp(float downX, float downY, float x, float y) {
-        return Math.abs(downX - x) > 50 || Math.abs(downY - y) > 50;
+    boolean scrollDistanceMinDistance(float downX, float downY, float x, float y) {
+        return Math.abs(downX - x) > scrollMinDistance || Math.abs(downY - y) > scrollMinDistance;
     }
 
     @Override
@@ -219,15 +220,15 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
 
-    public abstract View getNavigationView();
+    abstract View getNavigationView();
 
-    public abstract View getCurrentView();
+    abstract View getCurrentView();
 
-    public abstract String getNavigationText();
+    abstract String getNavigationText();
 
-    public abstract String getNextNavigationText();
+    abstract String getNextNavigationText();
 
-    protected void backStack(final View currentView, final View popBackView) {
+    void backStack(final View currentView, final View popBackView) {
         final int PX = DisplayUtil.dip2px(this, 100);
         if (null == currentView || null == popBackView) {
             return;
@@ -268,6 +269,7 @@ public abstract class NavigationBaseActivity extends AppCompatActivity {
     /**
      * 功换view
      * Start at page 1
+     *
      * @param page 从1页开始
      */
     public void viewChange(float page) {

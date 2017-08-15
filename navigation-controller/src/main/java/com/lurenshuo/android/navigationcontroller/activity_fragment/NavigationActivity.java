@@ -1,8 +1,6 @@
-package com.lurenshuo.android.navigationcontroller.activity;
+package com.lurenshuo.android.navigationcontroller.activity_fragment;
 
 import android.view.View;
-
-import com.lurenshuo.android.navigationcontroller.fragment.NavigationFragment;
 
 import java.util.ArrayList;
 
@@ -14,14 +12,14 @@ import java.util.ArrayList;
 
 public abstract class NavigationActivity extends NavigationBaseActivity {
 
-    public ArrayList<NavigationFragment> mFragments = new ArrayList<>();
+    ArrayList<NavigationFragment> mFragments = new ArrayList<>();
 
-    public void addNavigationFragment(NavigationFragment fragment) {
+    void addNavigationFragment(NavigationFragment fragment) {
         mFragments.add(fragment);
         registerNavigationTouchListener(fragment);
     }
 
-    public void removeNavigationView(NavigationFragment fragment) {
+    void removeNavigationView(NavigationFragment fragment) {
         mFragments.remove(fragment);
         unRegisterNavigationTouchListener(fragment);
     }
@@ -30,7 +28,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
      * 导航的view
      */
     @Override
-    public View getNavigationView() {
+    View getNavigationView() {
         if (mFragments.size() > 1) {
             return mFragments.get(mFragments.size() - 2).getView();
         } else {
@@ -42,7 +40,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
      * 当前的view
      */
     @Override
-    public View getCurrentView() {
+    View getCurrentView() {
         if (mFragments.size() >= 1) {
             return mFragments.get(mFragments.size() - 1).getView();
         } else {
@@ -54,7 +52,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
      * 导航文字
      */
     @Override
-    public String getNavigationText() {
+    String getNavigationText() {
         if (mFragments.size() > 1) {
             return mFragments.get(mFragments.size() - 2).mAnimatorTitle;
         } else {
@@ -66,7 +64,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
      * 下一下导航文字
      */
     @Override
-    public String getNextNavigationText() {
+    String getNextNavigationText() {
         if (mFragments.size() > 2) {
             return mFragments.get(mFragments.size() - 3).mAnimatorTitle;
         } else {
@@ -78,7 +76,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
      * 切换fragment时做一个动画
      */
     @Override
-    public void popBackStack() {
+    void popBackStack() {
         final View currentView = mFragments.get(mFragments.size() - 1).getView();
         final View popBackView = mFragments.get(mFragments.size() - 2).getView();
         backStack(currentView, popBackView);

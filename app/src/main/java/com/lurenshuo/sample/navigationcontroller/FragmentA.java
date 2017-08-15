@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lurenshuo.android.navigationcontroller.fragment.NavigationFragment;
+import com.lurenshuo.android.navigationcontroller.activity_fragment.NavigationFragment;
 
 
 /**

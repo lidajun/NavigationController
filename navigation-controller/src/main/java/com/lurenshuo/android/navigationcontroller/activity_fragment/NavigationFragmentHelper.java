@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.fragment;
+package com.lurenshuo.android.navigationcontroller.activity_fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lurenshuo.android.navigationcontroller.activity.NavigationActivityV4;
-import com.lurenshuo.android.navigationcontroller.activity.NavigationBaseActivity;
 import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
 import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
 
@@ -19,7 +17,7 @@ import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
  * Created by lidajun on 17-6-29.
  */
 
-public class NavigationFragmentHelper {
+class NavigationFragmentHelper {
     private float mAnimatorTitleTvX = -1.0f;
     private float mAnimatorNavigationTvX = -1.0f;
     private float downX = -1.0f;
@@ -29,7 +27,7 @@ public class NavigationFragmentHelper {
     private Rect mRect;
     private NavigationBaseActivity mActivity;
 
-    public NavigationFragmentHelper(NavigationBaseActivity activity) {
+    NavigationFragmentHelper(NavigationBaseActivity activity) {
         mActivity = activity;
     }
 
@@ -106,7 +104,7 @@ public class NavigationFragmentHelper {
                     downX = moveX;
                 }
                 float vX;
-                if (mActivity.mMode == NavigationActivityV4.Mode.edge) {
+                if (mActivity.mScrollMode == NavigationBaseActivity.ScrollMode.edge) {
                     if (downX > mActivity.edgeSize) {
                         resetView(currentView, navigationView, popBack);
                         return false;

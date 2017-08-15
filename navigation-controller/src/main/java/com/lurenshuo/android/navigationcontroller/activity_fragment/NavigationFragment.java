@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.fragment;
+package com.lurenshuo.android.navigationcontroller.activity_fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.lurenshuo.android.navigationcontroller.activity.NavigationActivity;
 import com.lurenshuo.android.navigationcontroller.listener.NavigationTouchListener;
 import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
 
@@ -22,8 +21,8 @@ import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
  */
 
 public abstract class NavigationFragment extends Fragment implements NavigationTouchListener {
-    public NavigationActivity mActivity;
-    public String mAnimatorTitle;
+    NavigationActivity mActivity;
+    String mAnimatorTitle;
 
     /**
      * 注册touch事件

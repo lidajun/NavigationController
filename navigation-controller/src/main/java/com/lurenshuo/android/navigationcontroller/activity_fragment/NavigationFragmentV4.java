@@ -9,20 +9,19 @@ import android.view.View;
 import com.lurenshuo.android.navigationcontroller.listener.NavigationTouchListener;
 import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
 
-
 /**
  * 导航：
  * 作为滑动导航的父fragment使用
  * 1,添加fragment时，需要 fragmentTransaction.addToBackStack(null);
  * 2,不能使用 fragmentTransaction.setTransition(XXX) ,否则没有导航view的动画
  * 3,添加切换动画时使用两个参数的，这两个参数的是只做开始的动画，popBackTack的动画由NavigationActivity做
- * transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,R.animator.fragment_slide_left_exit);
+ * 例如：transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,R.animator.fragment_slide_left_exit);
  * Created by lidajun on 17-4-21.
  */
 
 public abstract class NavigationFragmentV4 extends android.support.v4.app.Fragment implements NavigationTouchListener {
     NavigationActivityV4 mActivity;
-    String mAnimatorTitle;
+    String toolbarTitle;
 
     /**
      * 注册touch事件
@@ -40,24 +39,28 @@ public abstract class NavigationFragmentV4 extends android.support.v4.app.Fragme
         super.onViewCreated(view, savedInstanceState);
         mActivity.mFragmentHelper.created();
         if (null != mActivity.mNavigationToolbar) {
-            mAnimatorTitle = getToolbarTitle();
-            mActivity.mNavigationToolbar.mTitleTv.setText(mAnimatorTitle);
+            mActivity.mNavigationToolbar.mTitleTv.setText(toolbarTitle);
         }
     }
 
-    public abstract String getToolbarTitle();
+    /**
+     * 添加toolbarTitle
+     */
+    public void setToolbarTitle(String title) {
+        toolbarTitle = title;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        mActivity.mFragmentHelper.initToolbarNavigationText(mAnimatorTitle);
+        mActivity.mFragmentHelper.initToolbarNavigationText(toolbarTitle);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            mActivity.mFragmentHelper.initToolbarNavigationText(mAnimatorTitle);
+            mActivity.mFragmentHelper.initToolbarNavigationText(toolbarTitle);
         }
     }
 

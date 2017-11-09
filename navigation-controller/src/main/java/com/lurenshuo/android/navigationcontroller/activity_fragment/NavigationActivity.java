@@ -54,7 +54,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
     @Override
     String getNavigationText() {
         if (mFragments.size() > 1) {
-            return mFragments.get(mFragments.size() - 2).mAnimatorTitle;
+            return mFragments.get(mFragments.size() - 2).toolbarTitle;
         } else {
             return "";
         }
@@ -64,9 +64,9 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
      * 下一下导航文字
      */
     @Override
-    String getNextNavigationText() {
+    String getNavigationBackText() {
         if (mFragments.size() > 2) {
-            return mFragments.get(mFragments.size() - 3).mAnimatorTitle;
+            return mFragments.get(mFragments.size() - 3).toolbarTitle;
         } else {
             return "";
         }

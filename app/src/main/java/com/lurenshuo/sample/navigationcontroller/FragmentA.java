@@ -18,6 +18,7 @@ public class FragmentA extends NavigationFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        setToolbarTitle("FragmentA");
         return inflater.inflate(R.layout.fragment_a, container, false);
     }
 
@@ -37,10 +38,4 @@ public class FragmentA extends NavigationFragment {
             }
         });
     }
-
-    @Override
-    public String getToolbarTitle() {
-        return "FragmentA";
-    }
-
 }

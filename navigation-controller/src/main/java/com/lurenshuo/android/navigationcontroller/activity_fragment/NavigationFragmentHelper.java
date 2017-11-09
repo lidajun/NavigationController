@@ -35,7 +35,7 @@ class NavigationFragmentHelper {
         if (null != mActivity.mNavigationToolbar) {
             //把上一个view的标题做为这个view的导航目的地标题
             if (!TextUtils.isEmpty(mActivity.getNavigationText())) {
-                mActivity.mNavigationToolbar.mNavigationTv.setText(String.format("<%s", mActivity.getNavigationText()));
+                mActivity.mNavigationToolbar.mBackTv.setText(String.format("%s%s", mActivity.backPrefix, mActivity.getNavigationText()));
             }
         }
     }
@@ -43,10 +43,10 @@ class NavigationFragmentHelper {
     void initToolbarNavigationText(String title) {
         if (null != mActivity.mNavigationToolbar) {
             if (!TextUtils.isEmpty(mActivity.getNavigationText())) {
-                mActivity.mNavigationToolbar.mNavigationTv.setText(String.format("<%s", mActivity.getNavigationText()));
-                mActivity.mNavigationToolbar.mNavigationTv.setAlpha(1.0f);
+                mActivity.mNavigationToolbar.mBackTv.setText(String.format("%s%s", mActivity.backPrefix, mActivity.getNavigationText()));
+                mActivity.mNavigationToolbar.mBackTv.setAlpha(1.0f);
             } else {
-                mActivity.mNavigationToolbar.mNavigationTv.setText("");
+                mActivity.mNavigationToolbar.mBackTv.setText("");
             }
             mActivity.mNavigationToolbar.mTitleTv.setText(title);
         }
@@ -79,7 +79,7 @@ class NavigationFragmentHelper {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
-                if (downX > mActivity.edgeSize) {
+                if (downX > mActivity.edgeSize && mActivity.mScrollMode == NavigationBaseActivity.ScrollMode.EDGE) {
                     //防止down的时候动画没做完
                     if (navigationView.getX() != 0 || currentView.getX() != 0 || mTouchMove) {
                         resetView(currentView, navigationView, popBack);
@@ -88,12 +88,12 @@ class NavigationFragmentHelper {
                 }
                 if (null != mActivity.mNavigationToolbar) {
                     //如果有导航文字
-                    if (null != mActivity.mNavigationToolbar.mNavigationTv) {
+                    if (null != mActivity.mNavigationToolbar.mBackTv) {
                         showAnimatorView();
                     }
                     //如果有下一个导航文字
-                    if (!TextUtils.isEmpty(mActivity.getNextNavigationText())) {
-                        mActivity.mNavigationToolbar.mNavigationTv.setText(String.format("<%s", mActivity.getNextNavigationText()));
+                    if (!TextUtils.isEmpty(mActivity.getNavigationBackText())) {
+                        mActivity.mNavigationToolbar.mBackTv.setText(String.format("%s%s", mActivity.backPrefix, mActivity.getNavigationBackText()));
                     }
                 }
                 mTouchMove = false;
@@ -104,7 +104,7 @@ class NavigationFragmentHelper {
                     downX = moveX;
                 }
                 float vX;
-                if (mActivity.mScrollMode == NavigationBaseActivity.ScrollMode.edge) {
+                if (mActivity.mScrollMode == NavigationBaseActivity.ScrollMode.EDGE) {
                     if (downX > mActivity.edgeSize) {
                         resetView(currentView, navigationView, popBack);
                         return false;
@@ -122,7 +122,7 @@ class NavigationFragmentHelper {
                 }
                 currentView.setX(vX);
                 mTouchMove = true;
-                mActivity.viewChange(mActivity.mListeners.size() - vX / mActivity.mScreenWidth);
+                mActivity.viewChange(mActivity.mListeners.size() - vX / mActivity.mScreenWidth - 1);
                 if (navigationView.getVisibility() != View.VISIBLE) {
                     navigationView.setVisibility(View.VISIBLE);
                 }
@@ -135,10 +135,10 @@ class NavigationFragmentHelper {
                         mAnimatorNavigationTv.setX(x);
                         mAnimatorNavigationTv.setAlpha((x) / mAnimatorTitleViewMaxTitleX);
                         //如果有一下个导航标题，就从0到1，否则1到0
-                        if (!TextUtils.isEmpty(mActivity.getNextNavigationText())) {
-                            mActivity.mNavigationToolbar.mNavigationTv.setAlpha((x) / mAnimatorTitleViewMaxTitleX);
+                        if (!TextUtils.isEmpty(mActivity.getNavigationBackText())) {
+                            mActivity.mNavigationToolbar.mBackTv.setAlpha((x) / mAnimatorTitleViewMaxTitleX);
                         } else {
-                            mActivity.mNavigationToolbar.mNavigationTv.setAlpha((mAnimatorTitleTvX - vX / 2) / mAnimatorTitleTvX);
+                            mActivity.mNavigationToolbar.mBackTv.setAlpha((mAnimatorTitleTvX - vX / 2) / mAnimatorTitleTvX);
                         }
                     }
                     if (null != mAnimatorTitleTv) {
@@ -184,7 +184,7 @@ class NavigationFragmentHelper {
                 startTitleAnimator(mAnimatorTitleTv, tTvX, mActivity.mScreenWidth, animatorDuration);
                 startAlphaAnimator(mAnimatorTitleTv, (mAnimatorTitleTvX - tTvX / 2) / mAnimatorTitleTvX, 0.0f, animatorDuration);
                 if (TextUtils.isEmpty(mActivity.getNavigationText())) {
-                    startAlphaAnimator(mActivity.mNavigationToolbar.mNavigationTv, (mAnimatorNavigationTvX + nTvX / 2) / mAnimatorTitleViewMaxTitleX, 0.0f, animatorDuration);
+                    startAlphaAnimator(mActivity.mNavigationToolbar.mBackTv, (mAnimatorNavigationTvX + nTvX / 2) / mAnimatorTitleViewMaxTitleX, 0.0f, animatorDuration);
                 }
             }
         } else {
@@ -247,22 +247,22 @@ class NavigationFragmentHelper {
                     float value = (float) animation.getAnimatedValue();
                     view.setX(value);
                     if (view == mActivity.getCurrentView() && (to == mActivity.mScreenWidth || to == 0)) {
-                        mActivity.viewChange(mActivity.mListeners.size() - value / mActivity.mScreenWidth);
+                        mActivity.viewChange(mActivity.mListeners.size() - value / mActivity.mScreenWidth - 1);
                     }
                     //切换视图
                     if (value >= mActivity.mScreenWidth) {
-                        if (!TextUtils.isEmpty(mActivity.getNavigationText())) {
+                        if (!TextUtils.isEmpty(mActivity.getNavigationText()) && null != mActivity.mNavigationToolbar) {
                             mActivity.mNavigationToolbar.mTitleTv.setText(mActivity.getNavigationText());
                         }
-                        if (!TextUtils.isEmpty(mActivity.getNextNavigationText())) {
-                            mActivity.mNavigationToolbar.mNavigationTv.setVisibility(View.VISIBLE);
+                        if (!TextUtils.isEmpty(mActivity.getNavigationBackText()) && null != mActivity.mNavigationToolbar) {
+                            mActivity.mNavigationToolbar.mBackTv.setVisibility(View.VISIBLE);
                         }
                         dismissAnimatorView();
                         popBack.popBack();
                         //不切换视图
                     } else if (to == -mActivity.mScreenWidth / 2 && value == to) {
-                        if (!TextUtils.isEmpty(mActivity.getNavigationText())) {
-                            mActivity.mNavigationToolbar.mNavigationTv.setVisibility(View.VISIBLE);
+                        if (!TextUtils.isEmpty(mActivity.getNavigationText()) && null != mActivity.mNavigationToolbar) {
+                            mActivity.mNavigationToolbar.mBackTv.setVisibility(View.VISIBLE);
                         }
                         dismissAnimatorView();
                         view.setX(0);
@@ -281,7 +281,7 @@ class NavigationFragmentHelper {
                 mAnimatorNavigationTv = new TextView(mActivity);
                 mAnimatorNavigationTv.setTextColor(mActivity.mNavigationToolbar.mTitleTv.getTextColors());
                 mAnimatorNavigationTv.setTextSize(DisplayUtil.px2sp(mActivity, mActivity.mNavigationToolbar.mTitleTv.getTextSize()));
-                mAnimatorNavigationTvX = mActivity.mNavigationToolbar.mNavigationTv.getX();
+                mAnimatorNavigationTvX = mActivity.mNavigationToolbar.mBackTv.getX();
                 mAnimatorNavigationTv.setX(mAnimatorNavigationTvX);
                 mAnimatorNavigationTv.setAlpha(0);
                 mAnimatorNavigationTv.setY(mActivity.mNavigationToolbar.mTitleTv.getY());

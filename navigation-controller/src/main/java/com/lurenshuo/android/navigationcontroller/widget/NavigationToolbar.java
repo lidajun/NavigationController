@@ -2,6 +2,7 @@ package com.lurenshuo.android.navigationcontroller.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -18,7 +19,7 @@ import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
 public class NavigationToolbar extends Toolbar {
 
     public TextView mTitleTv;
-    public TextView mNavigationTv;
+    public TextView mBackTv;
 
     public NavigationToolbar(Context context) {
         this(context, null);
@@ -35,20 +36,24 @@ public class NavigationToolbar extends Toolbar {
 
     private void init(Context context, AttributeSet attrs) {
         mTitleTv = new TextView(context);
-        mNavigationTv = new TextView(context);
+        mBackTv = new TextView(context);
         Toolbar.LayoutParams layoutParams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
         mTitleTv.setLayoutParams(layoutParams);
-        mNavigationTv.setGravity(Gravity.CENTER_VERTICAL);
+        mBackTv.setGravity(Gravity.CENTER_VERTICAL);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.navigation_toolbar_attrs);
-        float naviTextSize = typedArray.getFloat(R.styleable.navigation_toolbar_attrs_navi_view_text_size, 18);
-        mNavigationTv.setTextSize(naviTextSize);
+        int titleTextColor = typedArray.getColor(R.styleable.navigation_toolbar_attrs_title_view_text_color, Color.BLACK);
+        mTitleTv.setTextColor(titleTextColor);
+        int backTextColor = typedArray.getColor(R.styleable.navigation_toolbar_attrs_back_view_text_color, Color.BLACK);
+        mBackTv.setTextColor(backTextColor);
+        float backTextSize = typedArray.getFloat(R.styleable.navigation_toolbar_attrs_back_view_text_size, 18);
+        mBackTv.setTextSize(backTextSize);
         float titleTextSize = typedArray.getFloat(R.styleable.navigation_toolbar_attrs_title_view_text_size, 20);
         mTitleTv.setTextSize(titleTextSize);
         typedArray.recycle();
-        mNavigationTv.setX(DisplayUtil.dip2px(context, 10));
+        mBackTv.setX(DisplayUtil.dip2px(context, 10));
         this.addView(mTitleTv);
-        this.addView(mNavigationTv);
+        this.addView(mBackTv);
         setTitle("");
     }
 }

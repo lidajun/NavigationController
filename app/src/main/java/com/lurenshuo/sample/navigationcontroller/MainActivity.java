@@ -12,7 +12,11 @@ public class MainActivity extends NavigationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getFragmentManager().beginTransaction().add(R.id.frameLayout, new FragmentA()).addToBackStack(null).commit();
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.frameLayout, new FragmentA())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

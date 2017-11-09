@@ -51,9 +51,10 @@ public abstract class NavigationActivityV4 extends NavigationBaseActivity {
     /**
      * 导航文字
      */
+    @Override
     String getNavigationText() {
         if (mFragments.size() > 1) {
-            return mFragments.get(mFragments.size() - 2).mAnimatorTitle;
+            return mFragments.get(mFragments.size() - 2).toolbarTitle;
         } else {
             return "";
         }
@@ -62,9 +63,9 @@ public abstract class NavigationActivityV4 extends NavigationBaseActivity {
     /**
      * 下一下导航文字
      */
-    String getNextNavigationText() {
+    String getNavigationBackText() {
         if (mFragments.size() > 2) {
-            return mFragments.get(mFragments.size() - 3).mAnimatorTitle;
+            return mFragments.get(mFragments.size() - 3).toolbarTitle;
         } else {
             return "";
         }
@@ -73,7 +74,8 @@ public abstract class NavigationActivityV4 extends NavigationBaseActivity {
     /**
      * 切换fragment时做一个动画
      */
-    protected void popBackStack() {
+    @Override
+    void popBackStack() {
         final View currentView = mFragments.get(mFragments.size() - 1).getView();
         final View popBackView = mFragments.get(mFragments.size() - 2).getView();
         backStack(currentView, popBackView);

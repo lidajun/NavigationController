@@ -2,10 +2,10 @@
 <resources>
     <declare-styleable name="navigation_toolbar_attrs">
         <attr name="title_view_text_size" format="float"/>
-        <attr name="navi_view_text_size" format="float"/>
+        <attr name="back_view_text_size" format="float"/>
         <attr name="title_view_text_color" format="color"/>
-        <attr name="navi_view_text_color" format="color"/>
+        <attr name="back_view_text_color" format="color"/>
         <attr name="title_view_text" format="string"/>
-        <attr name="navi_view_text" format="string"/>
+        <attr name="back_view_text" format="string"/>
     </declare-styleable>
 </resources>

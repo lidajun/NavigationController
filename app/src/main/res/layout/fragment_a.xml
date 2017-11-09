@@ -5,13 +5,18 @@
               android:background="@android:color/white"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_weight="1"
-        android:text="Video decoding recommendations
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:text="Video decoding recommendations
 Device implementations must support dynamic video resolution and frame rate switching through the standard Android APIs within the same stream for all VP8, VP9, H.264, and H.265 codecs in real time and up to the maximum resolution supported by each codec on the device.
 
 Implementations that support the Dolby Vision decoder must follow these guidelines:
@@ -25,7 +30,8 @@ For video content that is streamed over HTTP or RTSP, there are additional requi
 For 3GPP and MPEG-4 containers, the moov atom must precede any mdat atoms, but must succeed the ftyp atom.
 For 3GPP, MPEG-4, and WebM containers, audio and video samples corresponding to the same time offset may be no more than 500 KB apart. To minimize this audio/video drift, consider interleaving audio and video in smaller chunk sizes.
 "
-        android:textSize="18sp"/>
+            android:textSize="20sp"/>
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_click"

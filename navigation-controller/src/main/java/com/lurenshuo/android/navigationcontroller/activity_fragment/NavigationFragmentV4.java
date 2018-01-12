@@ -3,6 +3,7 @@ package com.lurenshuo.android.navigationcontroller.activity_fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -48,6 +49,10 @@ public abstract class NavigationFragmentV4 extends android.support.v4.app.Fragme
      */
     public void setToolbarTitle(String title) {
         toolbarTitle = title;
+    }
+
+    public void setToolbarTitle(@StringRes int resId) {
+        toolbarTitle = getString(resId);
     }
 
     @Override

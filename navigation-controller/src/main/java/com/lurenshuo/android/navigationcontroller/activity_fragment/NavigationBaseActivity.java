@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -23,8 +22,6 @@ import java.util.ArrayList;
  */
 
 abstract class NavigationBaseActivity extends AppCompatActivity {
-    float mDownY;
-    float mDownX;
     NavigationToolbar mNavigationToolbar;
     float edgeSize;
     //动画中
@@ -32,8 +29,6 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
     int mScreenWidth;
     // 保存MyTouchListener接口的列表
     ArrayList<NavigationTouchListener> mListeners = new ArrayList<>();
-    public ScrollMode mScrollMode = ScrollMode.EDGE;
-    GestureDetector mGestureDetector;
     //边的大小，屏幕的20分之1
     int EDGE_SIZE = 20;
     //超过多少，跳转，屏幕的4分之1
@@ -41,28 +36,14 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
     private int scrollMinDistance;
     //导航模式开启中
     public boolean inNavigation = false;
-    //已确定事件分发
-    boolean determined = false;
     //fragment帮助类
     NavigationFragmentHelper mFragmentHelper;
     //回退的前缀
     public String backPrefix = "<";
 
-    /**
-     * 模式
-     * 全屏or边
-     * 全屏：目前没有解决与其它子控件的onLongClickListener冲突
-     * 因为LongClick使用的时间的是move的eventTime和downTime的时间，没有走up，如果不给它down事件，其它的view的事件都会失效
-     * 可以把执行longClick时先判断inNavigation,如果不是导航中，再去执行
-     */
-    public enum ScrollMode {
-        FULL_SCREEN, EDGE
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGestureDetector = new GestureDetector(new MyDetector());
         mFragmentHelper = new NavigationFragmentHelper(this);
         scrollMinDistance = ViewConfiguration.get(this).getScaledTouchSlop();
         initScreenSize();
@@ -107,63 +88,17 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         NavigationTouchListener listener = getLastTouchListener();
         if (null != listener && mListeners.size() > 1) {
-            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                if (inAnimator) {
-                    return false;
-                }
-            }
-            if (mScrollMode == ScrollMode.EDGE) {
-                //如果是边模式，只跟据位置判断
-                if (ev.getX() < edgeSize && ev.getAction() == MotionEvent.ACTION_DOWN) {
-                    return onTouchEvent(ev);
-                }
-            } else if (mScrollMode == ScrollMode.FULL_SCREEN) {
-                //如果滑到边，按边的模式
-                if (ev.getX() < edgeSize && ev.getAction() == MotionEvent.ACTION_DOWN) {
-                    return onTouchEvent(ev);
-                }
-                if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                    mDownY = ev.getRawY();
-                    mDownX = ev.getRawX();
-                    //重执导航中和已确定方向为false
-                    determined = false;
-                    inNavigation = false;
-                }
-                if (ev.getAction() == MotionEvent.ACTION_UP) {
-                    if (inNavigation) {
-                        inNavigation = false;
-                        return onTouchEvent(ev);
-                    }
-                    //重执导航中和已确定方向为false
-                    determined = false;
-                    inNavigation = false;
-                    return super.dispatchTouchEvent(ev);
-                }
-
-                //判断滑动方向
-                if (!scrollDistanceMinDistance(mDownX, mDownY, ev.getRawX(), ev.getRawY()) && !determined) {
-                    //已确定方向
-                    if (scrollDistanceMinDistance(mDownX, mDownY, ev.getRawX(), ev.getRawY())) {
-                        determined = true;
-                    }
-                    //判断方向，返回true表示确定是左右，返回false，不一定是确定完了，所以要用时间或距离进行确定，如果在时间距离之后，仍然没有确定是左右，那么就是上下了
-                    if (mGestureDetector.onTouchEvent(ev)) {
-                        inNavigation = true;
-                        determined = true;
-                        ev.setAction(MotionEvent.ACTION_DOWN);
-                        return onTouchEvent(ev);
-                    } else {
-                        return super.dispatchTouchEvent(ev);
-                    }
-                } else {
-                    if (inNavigation) {
-                        return onTouchEvent(ev);
-                    }
-                    return super.dispatchTouchEvent(ev);
-                }
+            //如果是边模式，只跟据位置判断
+            if (ev.getX() < edgeSize && ev.getAction() == MotionEvent.ACTION_DOWN) {
+                return true;
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return getLastTouchListener().onTouchEvent(event);
     }
 
     /**
@@ -203,30 +138,6 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
      */
     void unRegisterNavigationTouchListener(NavigationTouchListener listener) {
         mListeners.remove(listener);
-    }
-
-    /**
-     * @return 滑动的距离超过最小识别距离
-     */
-    boolean scrollDistanceMinDistance(float downX, float downY, float x, float y) {
-        return Math.abs(downX - x) > scrollMinDistance || Math.abs(downY - y) > scrollMinDistance;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View currentView = getCurrentView();
-            if (null != currentView) {
-                if (currentView.getVisibility() != View.VISIBLE) {
-                    currentView.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-        NavigationTouchListener listener = getLastTouchListener();
-        if (null != listener) {
-            return listener.onTouchEvent(event);
-        }
-        return super.onTouchEvent(event);
     }
 
     abstract View getNavigationView();
@@ -288,18 +199,8 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mFragmentHelper = null;
-        mGestureDetector = null;
         mListeners = null;
         mNavigationToolbar = null;
     }
 
-    private class MyDetector extends GestureDetector.SimpleOnGestureListener {
-        /**
-         * @return true: 右左 ；false: 上下
-         */
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return Math.abs(distanceY) < Math.abs(distanceX);
-        }
-    }
 }

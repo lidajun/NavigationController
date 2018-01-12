@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -49,6 +50,10 @@ public abstract class NavigationFragment extends Fragment implements NavigationT
      */
     public void setToolbarTitle(String title) {
         toolbarTitle = title;
+    }
+
+    public void setToolbarTitle(@StringRes int resId) {
+        toolbarTitle = getString(resId);
     }
 
     @Override

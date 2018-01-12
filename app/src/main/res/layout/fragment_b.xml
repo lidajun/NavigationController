@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:orientation="vertical">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-        <TextView
-            android:id="@+id/text_view"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@android:color/white"
+                  android:orientation="vertical">
+
+        <Button
+            android:id="@+id/long_click_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
-            android:text="Video decoding recommendations
+            android:text="long_click_btn"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:text="Video decoding recommendations
 Device implementations must support dynamic video resolution and frame rate switching through the standard Android APIs within the same stream for all VP8, VP9, H.264, and H.265 codecs in real time and up to the maximum resolution supported by each codec on the device.
 
 Implementations that support the Dolby Vision decoder must follow these guidelines:
@@ -29,6 +47,7 @@ For video content that is streamed over HTTP or RTSP, there are additional requi
 For 3GPP and MPEG-4 containers, the moov atom must precede any mdat atoms, but must succeed the ftyp atom.
 For 3GPP, MPEG-4, and WebM containers, audio and video samples corresponding to the same time offset may be no more than 500 KB apart. To minimize this audio/video drift, consider interleaving audio and video in smaller chunk sizes.
 "
-            android:textSize="20sp"/>
-    </ScrollView>
-</LinearLayout>
+                android:textSize="20sp"/>
+        </ScrollView>
+    </LinearLayout>
+</ScrollView>

@@ -53,8 +53,14 @@ class NavigationFragmentHelper {
     }
 
     private boolean mTouchMove = false;
+    private boolean firstTouch = true;
 
     boolean touchEvent(final MotionEvent event, PopBackListener popBack) {
+        //第一次进来并且不是DOWN就重置为DOWN，防止被其它view消费掉down
+        if (firstTouch && event.getAction() != MotionEvent.ACTION_DOWN) {
+            event.setAction(MotionEvent.ACTION_DOWN);
+        }
+        firstTouch = false;
         View currentView = mActivity.getCurrentView();
         if (null == currentView) {
             return false;
@@ -78,8 +84,11 @@ class NavigationFragmentHelper {
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (currentView.getVisibility() != View.VISIBLE) {
+                    currentView.setVisibility(View.VISIBLE);
+                }
                 downX = event.getX();
-                if (downX > mActivity.edgeSize && mActivity.mScrollMode == NavigationBaseActivity.ScrollMode.EDGE) {
+                if (downX > mActivity.edgeSize) {
                     //防止down的时候动画没做完
                     if (navigationView.getX() != 0 || currentView.getX() != 0 || mTouchMove) {
                         resetView(currentView, navigationView, popBack);
@@ -104,11 +113,9 @@ class NavigationFragmentHelper {
                     downX = moveX;
                 }
                 float vX;
-                if (mActivity.mScrollMode == NavigationBaseActivity.ScrollMode.EDGE) {
-                    if (downX > mActivity.edgeSize) {
-                        resetView(currentView, navigationView, popBack);
-                        return false;
-                    }
+                if (downX > mActivity.edgeSize) {
+                    resetView(currentView, navigationView, popBack);
+                    return false;
                 }
                 //禁止向左滑
                 vX = event.getX() - downX;
@@ -122,6 +129,7 @@ class NavigationFragmentHelper {
                 }
                 currentView.setX(vX);
                 mTouchMove = true;
+                mActivity.inNavigation = true;
                 mActivity.viewChange(mActivity.mListeners.size() - vX / mActivity.mScreenWidth - 1);
                 if (navigationView.getVisibility() != View.VISIBLE) {
                     navigationView.setVisibility(View.VISIBLE);
@@ -150,6 +158,7 @@ class NavigationFragmentHelper {
                 navigationView.setX(-mActivity.mScreenWidth / 2 + vX / 2);
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 resetView(currentView, navigationView, popBack);
                 break;
         }
@@ -178,7 +187,7 @@ class NavigationFragmentHelper {
             startValueAnimator(currentView, x, mActivity.mScreenWidth, animatorDuration, popBack);
             startValueAnimator(navigationView, -mActivity.mScreenWidth / 2 + x / 2, 0, animatorDuration, popBack);
             if (null != mActivity.mNavigationToolbar) {
-                if (nTvX < mAnimatorTitleViewMaxTitleX) {
+                if (mAnimatorTitleViewMaxTitleX > nTvX) {
                     startTitleAnimator(mAnimatorNavigationTv, nTvX, mAnimatorTitleViewMaxTitleX, animatorDuration);
                 }
                 startTitleAnimator(mAnimatorTitleTv, tTvX, mActivity.mScreenWidth, animatorDuration);
@@ -260,7 +269,7 @@ class NavigationFragmentHelper {
                         dismissAnimatorView();
                         popBack.popBack();
                         //不切换视图
-                    } else if (to == -mActivity.mScreenWidth / 2 && value == to) {
+                    } else if (to == -mActivity.mScreenWidth >> 1 && value == to) {
                         if (!TextUtils.isEmpty(mActivity.getNavigationText()) && null != mActivity.mNavigationToolbar) {
                             mActivity.mNavigationToolbar.mBackTv.setVisibility(View.VISIBLE);
                         }
@@ -290,8 +299,8 @@ class NavigationFragmentHelper {
                     mRect = new Rect();
                 }
                 //计算出下文字的最大x位置
-                mAnimatorNavigationTv.getPaint().getTextBounds(mAnimatorNavigationTv.getText().toString(), 0, mAnimatorNavigationTv.getText().toString().length(), mRect);
-                mAnimatorTitleViewMaxTitleX = mActivity.mScreenWidth / 2 - mRect.centerX() - mRect.left;
+                mAnimatorNavigationTv.getPaint().getTextBounds(mAnimatorNavigationTv.getText().toString(), (int) mActivity.mNavigationToolbar.getX() + mActivity.mNavigationToolbar.mTitleTv.getPaddingLeft(), mAnimatorNavigationTv.getText().toString().length(), mRect);
+                mAnimatorTitleViewMaxTitleX = (mActivity.mScreenWidth - mRect.right) >> 1;
                 mActivity.getWindow().addContentView(mAnimatorNavigationTv, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             }
         }
@@ -338,6 +347,7 @@ class NavigationFragmentHelper {
      * 把view重置
      */
     private void resetView(View currentView, View navigationView, PopBackListener popBack) {
+        firstTouch = true;
         downX = -1.0f;
         if (navigationView.getVisibility() == View.VISIBLE) {
             mActivity.inAnimator = true;

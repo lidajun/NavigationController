@@ -1,6 +1,14 @@
 package com.lurenshuo.android.navigationcontroller.activity_fragment;
 
+import android.annotation.SuppressLint;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+
+import com.lurenshuo.android.navigationcontroller.R;
 
 import java.util.ArrayList;
 
@@ -22,6 +30,40 @@ public abstract class NavigationActivityV4 extends NavigationBaseActivity {
     void removeNavigationView(NavigationFragmentV4 fragment) {
         mFragments.remove(fragment);
         unRegisterNavigationTouchListener(fragment);
+    }
+
+    public void addAndCommitFragment(@IdRes int resId, @NonNull Fragment fragment) {
+        addAndCommitFragment(resId, fragment, null);
+    }
+
+    public void addAndCommitFragment(@IdRes int resId, @NonNull Fragment fragment, @Nullable String tag) {
+        if (mFragments.size() == 0) {
+            getAddFragmentTransaction(resId, fragment, tag).commit();
+        } else {
+            getHideAndSetAnimationsTransaction(resId,fragment,tag).commit();
+        }
+    }
+
+    @SuppressLint({"CommitTransaction", "ResourceType"})
+    private FragmentTransaction getHideAndSetAnimationsTransaction(@IdRes int resId, @NonNull Fragment fragment, @Nullable String tag) {
+        return getSupportFragmentManager().beginTransaction().hide(mFragments.get(mFragments.size() - 1)).add(resId, fragment, tag).addToBackStack(null).setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit);
+    }
+
+    public void addAndCommitAllowingStateLossFragment(@IdRes int resId, @NonNull Fragment fragment) {
+        addAndCommitAllowingStateLossFragment(resId, fragment, null);
+    }
+
+    public void addAndCommitAllowingStateLossFragment(@IdRes int resId, @NonNull Fragment fragment, @Nullable String tag) {
+        if (mFragments.size() == 0) {
+            getAddFragmentTransaction(resId, fragment, tag).commitAllowingStateLoss();
+        } else {
+            getHideAndSetAnimationsTransaction(resId,fragment,tag).commitAllowingStateLoss();
+        }
+    }
+
+    @SuppressLint("CommitTransaction")
+    private FragmentTransaction getAddFragmentTransaction(@IdRes int resId, @NonNull Fragment fragment, @Nullable String tag) {
+        return getSupportFragmentManager().beginTransaction().add(resId, fragment, tag).addToBackStack(null);
     }
 
     /**

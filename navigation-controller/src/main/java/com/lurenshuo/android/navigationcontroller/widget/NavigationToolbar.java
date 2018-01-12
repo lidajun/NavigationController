@@ -1,5 +1,6 @@
 package com.lurenshuo.android.navigationcontroller.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -41,7 +42,7 @@ public class NavigationToolbar extends Toolbar {
         layoutParams.gravity = Gravity.CENTER;
         mTitleTv.setLayoutParams(layoutParams);
         mBackTv.setGravity(Gravity.CENTER_VERTICAL);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.navigation_toolbar_attrs);
+        @SuppressLint("CustomViewStyleable") TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.navigation_toolbar_attrs);
         int titleTextColor = typedArray.getColor(R.styleable.navigation_toolbar_attrs_title_view_text_color, Color.BLACK);
         mTitleTv.setTextColor(titleTextColor);
         int backTextColor = typedArray.getColor(R.styleable.navigation_toolbar_attrs_back_view_text_color, Color.BLACK);

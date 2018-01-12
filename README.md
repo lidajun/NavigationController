@@ -13,7 +13,7 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.lurenshuo.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -23,23 +23,57 @@ repositories {
     jcenter()
 }
 
-compile 'com.lurenshuo.android:navigation-controller:1.0.6'
+compile 'com.lurenshuo.android:navigation-controller:1.0.7'
 ```
 
 ------------------------------------------------------------------------------
 Suitable for use with fragment projects, fragment need extends to NavigationFragment or NavigationFragmentV4;Activity that contains fragment needs to inherit NavigationActivity or NavigationActivityV4.
-1. when adding fragment, Need fragmentTransaction.addToBackStack(null); 
-2. cannot use fragmentTransaction.setTransition(XXX), otherwise there is no animation of Navigation view 
-3. add the switch animation with two parameters, the two parameters are only to do the start of the animation, popBackTack animation by NavigationActivity, transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,R.animator.fragment_slide_left_exit);
 
-If you use toolbar, you need to use NavigationToolbar for example:
-
+If using Toolbar, you need to use NavigationToolbar. Default will increase the title of a switching animation. Please ignore if not used
 ```xml
 <com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="50dp"/>
 ```
+  Toolbar Optional attributes
+```
+<attr name="title_view_text_size" format="float"/>
+<attr name="back_view_text_size" format="float"/>
+<attr name="title_view_text_color" format="color"/>
+<attr name="back_view_text_color" format="color"/>
+<attr name="title_view_text" format="string"/>
+<attr name="back_view_text" format="string"/>
+```
+  You can add a title to your toolbar in the fragment
+```
+setToolbarTitle("FragmentA");
+```
+Let your activity inherit NavigationActivity or NavigationActivityV4
+    The difference is that you are not using the v4 package fragment
+    If you use the toolbar to return your toolbar in initNavigationToolbar, return null if not used;
+```
+@Override
+protected NavigationToolbar initNavigationToolbar() {
+   NavigationToolbar toolbar = (NavigationToolbar) findViewById(R.id.toolbar);
+   setSupportActionBar(toolbar);
+   return toolbar;
+}
+```
+add fragment in activity：
+```
+((NavigationActivity) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
+```
+
+Let your fragment inherit NavigationFragment or NavigationFragmentV4
+
+other:
+You can get the slide of fragment via viewChange (float page), starting with 0. Please ignore if not used
+```
+    public void viewChange(float page) {
+    }
+```
+
 --------------------------------------------------------------------------------
 
 用过iOS都知道iOS大多app都可以划动界面回退到一下页面，这个是iOS官方提供的一个叫NavigationController的功能。想实现一个一样的，找github，没找到合适了。自己写一个分享出来吧。
@@ -51,9 +85,9 @@ repositories {
     jcenter()
 }
 
-compile 'com.lurenshuo.android:navigation-controller:1.0.6'
+compile 'com.lurenshuo.android:navigation-controller:1.0.7'
 ```
-2:如果使用Toolbar，需要使用NavigationToolbar。不使用请忽略
+2:如果使用Toolbar，需要使用NavigationToolbar。默认会增加一个title的切换动画。不使用请忽略
 ```xml
 <com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
     android:id="@+id/toolbar"
@@ -84,38 +118,18 @@ protected NavigationToolbar initNavigationToolbar() {
    return toolbar;
 }
 ```
-添加fragment时要addToBackStack(null)
-例如：添加主fragment：
+在activity中添加fragment
+例如：
 ```
-getFragmentManager()
-      .beginTransaction()
-      .add(R.id.frameLayout, new FragmentA())
-      .addToBackStack(null)
-      .commit();
+((NavigationActivity) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
 ```
-不能使用 fragmentTransaction.setTransition(XXX) ,否则没有导航view的动画
-添加切换动画时使用两个参数的，这两个参数的是只做开始的动画，popBackTack的动画由NavigationActivity做 
-例如：添加其它fragment
-```
-getFragmentManager()
-      .beginTransaction()
-      .hide(FragmentA.this)
-      .add(R.id.frameLayout, new FragmentB())
-      .addToBackStack(null)
-      .setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit)
-      .commit();
-```
+
 4:让你的fragment继承NavigationFragment或NavigationFragmentV4
 其它：
 你可以通过viewChange(float page)方法获得fragment的滑动，比0开始。不使用请忽略
 ```
     public void viewChange(float page) {
     }
-```
-默认是只可以滑动边来回退(推荐使用默认)，你也可以改为全屏滑动
-在activity的onCreate中添加
-```
-mScrollMode = ScrollMode.FULL_SCREEN;
 ```
 
 License

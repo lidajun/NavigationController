@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.lurenshuo.sample.navigationcontroller.MainActivity">
+    tools:context="com.github.lidajun.sample.navigationcontroller.MainActivity">
 
-    <com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
+    <com.github.lidajun.android.navigationcontroller.widget.NavigationToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.utils;
+package com.github.lidajun.android.navigationcontroller.utils;
 
 import android.content.Context;
 

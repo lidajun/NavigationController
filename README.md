@@ -11,9 +11,9 @@ Download
 Download or grab via Maven:
 ```xml
 <dependency>
-  <groupId>com.lurenshuo.android</groupId>
+  <groupId>com.github.lidajun.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -23,7 +23,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.lurenshuo.android:navigation-controller:1.0.7'
+compile 'com.github.lidajun.android:navigation-controller:1.0.8'
 ```
 
 ------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Suitable for use with fragment projects, fragment need extends to NavigationFrag
 
 If using Toolbar, you need to use NavigationToolbar. Default will increase the title of a switching animation. Please ignore if not used
 ```xml
-<com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
+<com.github.lidajun.android.navigationcontroller.widget.NavigationToolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="50dp"/>
@@ -85,11 +85,11 @@ repositories {
     jcenter()
 }
 
-compile 'com.lurenshuo.android:navigation-controller:1.0.7'
+compile 'com.github.lidajun.android:navigation-controller:1.0.8'
 ```
 2:如果使用Toolbar，需要使用NavigationToolbar。默认会增加一个title的切换动画。不使用请忽略
 ```xml
-<com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar
+<com.github.lidajun.android.navigationcontroller.widget.NavigationToolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="50dp"/>
@@ -126,7 +126,7 @@ protected NavigationToolbar initNavigationToolbar() {
 
 4:让你的fragment继承NavigationFragment或NavigationFragmentV4
 其它：
-你可以通过viewChange(float page)方法获得fragment的滑动，比0开始。不使用请忽略
+你可以通过viewChange(float page)方法获得fragment的滑动，从0开始。不使用请忽略
 ```
     public void viewChange(float page) {
     }

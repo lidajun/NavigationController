@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.activity_fragment;
+package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.IdRes;
@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
-import com.lurenshuo.android.navigationcontroller.R;
+import com.github.lidajun.android.navigationcontroller.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.lurenshuo.sample.navigationcontroller;
+package com.github.lidajun.sample.navigationcontroller;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lurenshuo.android.navigationcontroller.activity_fragment.NavigationActivity;
-import com.lurenshuo.android.navigationcontroller.activity_fragment.NavigationFragment;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationActivity;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragment;
 
 
 /**

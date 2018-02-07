@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.activity_fragment;
+package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.animation.ValueAnimator;
 import android.content.res.Configuration;
@@ -10,10 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import com.lurenshuo.android.navigationcontroller.listener.NavigationTouchListener;
-import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
-import com.lurenshuo.android.navigationcontroller.utils.ScreenUtil;
-import com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar;
+import com.github.lidajun.android.navigationcontroller.listener.NavigationTouchListener;
+import com.github.lidajun.android.navigationcontroller.utils.DisplayUtil;
+import com.github.lidajun.android.navigationcontroller.utils.ScreenUtil;
+import com.github.lidajun.android.navigationcontroller.widget.NavigationToolbar;
 
 import java.util.ArrayList;
 

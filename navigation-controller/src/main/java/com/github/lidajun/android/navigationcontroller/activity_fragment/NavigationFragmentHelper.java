@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.activity_fragment;
+package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
-import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
+import com.github.lidajun.android.navigationcontroller.listener.PopBackListener;
+import com.github.lidajun.android.navigationcontroller.utils.DisplayUtil;
 
 /**
  * Created by lidajun on 17-6-29.

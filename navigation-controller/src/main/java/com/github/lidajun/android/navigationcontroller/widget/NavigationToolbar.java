@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.widget;
+package com.github.lidajun.android.navigationcontroller.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
 
-import com.lurenshuo.android.navigationcontroller.R;
-import com.lurenshuo.android.navigationcontroller.utils.DisplayUtil;
+import com.github.lidajun.android.navigationcontroller.R;
+import com.github.lidajun.android.navigationcontroller.utils.DisplayUtil;
 
 /**
  * Created by lidajun on 17-6-23.

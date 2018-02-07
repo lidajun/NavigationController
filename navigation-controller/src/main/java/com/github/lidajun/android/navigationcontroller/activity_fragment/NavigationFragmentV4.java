@@ -1,15 +1,14 @@
-package com.lurenshuo.android.navigationcontroller.activity_fragment;
+package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.lurenshuo.android.navigationcontroller.listener.NavigationTouchListener;
-import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
+import com.github.lidajun.android.navigationcontroller.listener.NavigationTouchListener;
+import com.github.lidajun.android.navigationcontroller.listener.PopBackListener;
 
 /**
  * 导航：
@@ -21,8 +20,8 @@ import com.lurenshuo.android.navigationcontroller.listener.PopBackListener;
  * Created by lidajun on 17-4-21.
  */
 
-public abstract class NavigationFragment extends Fragment implements NavigationTouchListener {
-    NavigationActivity mActivity;
+public abstract class NavigationFragmentV4 extends android.support.v4.app.Fragment implements NavigationTouchListener {
+    NavigationActivityV4 mActivity;
     String toolbarTitle;
 
     /**
@@ -32,7 +31,7 @@ public abstract class NavigationFragment extends Fragment implements NavigationT
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (NavigationActivity) activity;
+        mActivity = (NavigationActivityV4) activity;
         mActivity.addNavigationFragment(this);
     }
 

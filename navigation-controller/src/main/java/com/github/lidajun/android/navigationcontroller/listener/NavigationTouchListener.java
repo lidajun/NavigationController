@@ -1,4 +1,4 @@
-package com.lurenshuo.android.navigationcontroller.listener;
+package com.github.lidajun.android.navigationcontroller.listener;
 
 import android.view.MotionEvent;
 

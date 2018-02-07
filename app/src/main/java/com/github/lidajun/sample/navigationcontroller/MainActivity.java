@@ -1,9 +1,9 @@
-package com.lurenshuo.sample.navigationcontroller;
+package com.github.lidajun.sample.navigationcontroller;
 
 import android.os.Bundle;
 
-import com.lurenshuo.android.navigationcontroller.activity_fragment.NavigationActivity;
-import com.lurenshuo.android.navigationcontroller.widget.NavigationToolbar;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationActivity;
+import com.github.lidajun.android.navigationcontroller.widget.NavigationToolbar;
 
 
 public class MainActivity extends NavigationActivity {

@@ -38,6 +38,10 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
     public boolean inNavigation = false;
     //fragment帮助类
     NavigationFragmentHelper mFragmentHelper;
+    //是否有偏移动画
+    protected boolean hasOffset = true;
+    //可触摸的边的大小，是最小触摸的倍数
+    protected int edgeTimes = 2;
     //回退的前缀
     public String backPrefix = "<";
 
@@ -71,7 +75,7 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
 
     private void initScreenSize() {
         mScreenWidth = ScreenUtil.getScreenWidth(this);
-        edgeSize = Math.max(mScreenWidth / EDGE_SIZE, scrollMinDistance * 2);
+        edgeSize = Math.max(mScreenWidth / EDGE_SIZE, scrollMinDistance * edgeTimes);
     }
 
     @Override
@@ -79,7 +83,9 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState, persistentState);
     }
 
-    protected abstract NavigationToolbar initNavigationToolbar();
+    protected NavigationToolbar initNavigationToolbar(){
+        return null;
+    }
 
     /**
      * 分发触摸事件给所有注册了MyTouchListener的接口
@@ -98,7 +104,11 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return getLastTouchListener().onTouchEvent(event);
+        NavigationTouchListener listener = getLastTouchListener();
+        if (null == listener) {
+            return super.onTouchEvent(event);
+        }
+        return listener.onTouchEvent(event);
     }
 
     /**

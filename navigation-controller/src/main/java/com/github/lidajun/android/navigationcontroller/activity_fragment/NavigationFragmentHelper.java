@@ -123,10 +123,10 @@ class NavigationFragmentHelper {
                     vX = 0;
                 }
                 //防止两个view同时被滑动
-                if (mTouchMove && navigationView.getX() == currentView.getX()) {
-                    resetView(currentView, navigationView, popBack);
-                    return true;
-                }
+                //                if (mTouchMove && navigationView.getX() == currentView.getX()) {
+                //                    resetView(currentView, navigationView, popBack);
+                //                    return true;
+                //                }
                 currentView.setX(vX);
                 mTouchMove = true;
                 mActivity.inNavigation = true;
@@ -155,7 +155,9 @@ class NavigationFragmentHelper {
                         mAnimatorTitleTv.setAlpha((mAnimatorTitleTvX - vX / 2) / mAnimatorTitleTvX);
                     }
                 }
-                navigationView.setX(-mActivity.mScreenWidth / 2 + vX / 2);
+                if (mActivity.hasOffset) {
+                    navigationView.setX(-mActivity.mScreenWidth / 2 + vX / 2);
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -185,7 +187,11 @@ class NavigationFragmentHelper {
         //切换视图
         if (x > mActivity.mScreenWidth / mActivity.NAVI_BOUNDED) {
             startValueAnimator(currentView, x, mActivity.mScreenWidth, animatorDuration, popBack);
-            startValueAnimator(navigationView, -mActivity.mScreenWidth / 2 + x / 2, 0, animatorDuration, popBack);
+            if (mActivity.hasOffset) {
+                startValueAnimator(navigationView, -mActivity.mScreenWidth / 2 + x / 2, 0, animatorDuration, popBack);
+            } else {
+                mActivity.inAnimator = false;
+            }
             if (null != mActivity.mNavigationToolbar) {
                 if (mAnimatorTitleViewMaxTitleX > nTvX) {
                     startTitleAnimator(mAnimatorNavigationTv, nTvX, mAnimatorTitleViewMaxTitleX, animatorDuration);
@@ -199,7 +205,11 @@ class NavigationFragmentHelper {
         } else {
             //不切换视图
             startValueAnimator(currentView, x, 0, animatorDuration, popBack);
-            startValueAnimator(navigationView, -mActivity.mScreenWidth / 2 + x / 2, -mActivity.mScreenWidth / 2, animatorDuration, popBack);
+            if (mActivity.hasOffset) {
+                startValueAnimator(navigationView, -mActivity.mScreenWidth / 2 + x / 2, -mActivity.mScreenWidth / 2, animatorDuration, popBack);
+            } else {
+                mActivity.inAnimator = false;
+            }
             if (null != mActivity.mNavigationToolbar) {
                 startTitleAnimator(mAnimatorNavigationTv, nTvX, mAnimatorNavigationTvX, animatorDuration);
                 startTitleAnimator(mAnimatorTitleTv, tTvX, mAnimatorTitleTvX, animatorDuration);

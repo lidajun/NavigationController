@@ -83,7 +83,7 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState, persistentState);
     }
 
-    protected NavigationToolbar initNavigationToolbar(){
+    protected NavigationToolbar initNavigationToolbar() {
         return null;
     }
 
@@ -170,7 +170,11 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
                 float value = (float) animation.getAnimatedValue();
                 if (value >= PX) {
                     //让栈顶的fragment出栈
-                    getFragmentManager().popBackStack();
+                    if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                        getSupportFragmentManager().popBackStack();
+                    } else {
+                        getFragmentManager().popBackStack();
+                    }
                     viewChange(mListeners.size() - 2);
                 }
                 popBackView.setVisibility(View.VISIBLE);

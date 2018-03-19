@@ -13,7 +13,7 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.github.lidajun.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.0.9</version>
+  <version>1.1.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -23,7 +23,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.github.lidajun.android:navigation-controller:1.0.9'
+compile 'com.github.lidajun.android:navigation-controller:1.1.1'
 ```
 
 ------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.github.lidajun.android:navigation-controller:1.0.9'
+compile 'com.github.lidajun.android:navigation-controller:1.1.1'
 ```
 2:如果使用Toolbar，需要使用NavigationToolbar。默认会增加一个title的切换动画。不使用请忽略
 ```xml
@@ -109,7 +109,7 @@ setToolbarTitle("FragmentA");
 ```
 3:让你的activity继承NavigationActivity或NavigationActivityV4
    区别就是你是不是使用的v4包的fragment
-   如果使用toolbar就在initNavigationToolbar返回你的toolbar，没有使用就return null;
+   如果使用toolbar就在initNavigationToolbar返回你的toolbar，不使用请忽略;
 ```
 @Override
 protected NavigationToolbar initNavigationToolbar() {

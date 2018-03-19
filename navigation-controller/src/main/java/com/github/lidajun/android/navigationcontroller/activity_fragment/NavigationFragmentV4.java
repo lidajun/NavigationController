@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentManager;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -83,7 +84,10 @@ public abstract class NavigationFragmentV4 extends android.support.v4.app.Fragme
         return mActivity.mFragmentHelper.touchEvent(event, new PopBackListener() {
             @Override
             public void popBack() {
-                getFragmentManager().popBackStack();
+                FragmentManager fm = getFragmentManager();
+                if (null != fm) {
+                    fm.popBackStack();
+                }
             }
         });
     }

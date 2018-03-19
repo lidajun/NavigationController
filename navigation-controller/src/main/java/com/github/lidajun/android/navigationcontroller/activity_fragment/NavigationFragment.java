@@ -2,6 +2,7 @@ package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -84,7 +85,10 @@ public abstract class NavigationFragment extends Fragment implements NavigationT
         return mActivity.mFragmentHelper.touchEvent(event, new PopBackListener() {
             @Override
             public void popBack() {
-                getFragmentManager().popBackStack();
+                FragmentManager fm = getFragmentManager();
+                if (null != fm) {
+                    fm.popBackStack();
+                }
             }
         });
     }

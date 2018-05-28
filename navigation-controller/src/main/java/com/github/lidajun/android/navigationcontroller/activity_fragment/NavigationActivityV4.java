@@ -122,6 +122,9 @@ public abstract class NavigationActivityV4 extends NavigationBaseActivity {
      */
     @Override
     void popBackStack() {
+        if (mFragments.size() > 2) {
+            return;
+        }
         final View currentView = mFragments.get(mFragments.size() - 1).getView();
         final View popBackView = mFragments.get(mFragments.size() - 2).getView();
         backStack(currentView, popBackView);

@@ -6,15 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationActivity;
-import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragment;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationActivityV4;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragmentV4;
 
 
 /**
  * Created by lidajun on 17-6-27.
  */
 
-public class FragmentA extends NavigationFragment {
+public class FragmentA extends NavigationFragmentV4 {
 
     @Nullable
     @Override
@@ -29,7 +29,7 @@ public class FragmentA extends NavigationFragment {
         view.findViewById(R.id.btn_click).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NavigationActivity) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
+                ((NavigationActivityV4) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
             }
         });
     }

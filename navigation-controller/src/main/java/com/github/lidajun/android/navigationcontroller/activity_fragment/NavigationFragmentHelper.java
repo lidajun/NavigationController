@@ -3,6 +3,8 @@ package com.github.lidajun.android.navigationcontroller.activity_fragment;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.lidajun.android.navigationcontroller.listener.PopBackListener;
 import com.github.lidajun.android.navigationcontroller.utils.DisplayUtil;
+import com.github.lidajun.android.navigationcontroller.utils.ScreenUtil;
 
 /**
  * Created by lidajun on 17-6-29.
@@ -26,6 +29,8 @@ class NavigationFragmentHelper {
     private TextView mAnimatorTitleTv;
     private Rect mRect;
     private NavigationBaseActivity mActivity;
+    private boolean isAddBackground = false;
+    private int mScreenHeight;
 
     NavigationFragmentHelper(NavigationBaseActivity activity) {
         mActivity = activity;
@@ -106,6 +111,7 @@ class NavigationFragmentHelper {
                     }
                 }
                 mTouchMove = false;
+                isAddBackground = false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
@@ -128,6 +134,25 @@ class NavigationFragmentHelper {
                 //                    return true;
                 //                }
                 currentView.setX(vX);
+                //防止透明，如果当前view没有背景且view太小就增加一个
+                if (0 == mScreenHeight) {
+                    mScreenHeight = ScreenUtil.getScreenHeight(mActivity.getApplicationContext());
+                }
+                if (currentView.getBackground() == null && (currentView.getBottom() < mScreenHeight || currentView.getRight() < mScreenHeight)) {
+                    Drawable bg;
+                    if (null != mActivity.defaultBackground) {
+                        bg = mActivity.defaultBackground;
+                    } else {
+                        bg = new ColorDrawable(0xFFFFFFFF);
+                    }
+                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        currentView.setBackgroundDrawable(bg);
+                    } else {
+                        currentView.setBackground(bg);
+                    }
+                    isAddBackground = true;
+                }
                 mTouchMove = true;
                 mActivity.inNavigation = true;
                 mActivity.viewChange(mActivity.mListeners.size() - vX / mActivity.mScreenWidth - 1);
@@ -279,13 +304,24 @@ class NavigationFragmentHelper {
                         dismissAnimatorView();
                         popBack.popBack();
                         //不切换视图
-                    } else if (to == -mActivity.mScreenWidth >> 1 && value == to) {
-                        if (!TextUtils.isEmpty(mActivity.getNavigationText()) && null != mActivity.mNavigationToolbar) {
-                            mActivity.mNavigationToolbar.mBackTv.setVisibility(View.VISIBLE);
+                    } else if (value == to) {
+                        if (!mActivity.hasOffset) {
+                            View navigationView = mActivity.getNavigationView();
+                            if (null != navigationView) {
+                                navigationView.setVisibility(View.GONE);
+                            }
                         }
-                        dismissAnimatorView();
-                        view.setX(0);
-                        view.setVisibility(View.GONE);
+                        if (to == -mActivity.mScreenWidth >> 1) {
+                            if (!TextUtils.isEmpty(mActivity.getNavigationText()) && null != mActivity.mNavigationToolbar) {
+                                mActivity.mNavigationToolbar.mBackTv.setVisibility(View.VISIBLE);
+                            }
+                            dismissAnimatorView();
+                            view.setX(0);
+                            view.setVisibility(View.GONE);
+                        }
+                        if (isAddBackground) {
+                            mActivity.getCurrentView().setBackgroundDrawable(null);
+                        }
                     }
                 }
             }

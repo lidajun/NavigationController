@@ -68,3 +68,16 @@ freeline.py
 freeline/
 freeline_project_description.json
 
+/org.apache.http.NoHttpResponseException:
+将删除 app/libs/
+将删除 app/src/androidTest/
+将删除 app/src/main/java/com/github/lidajun/sample/navigationcontroller/SecondActivity.java
+将删除 app/src/main/res/drawable/
+将删除 app/src/main/res/layout/activity_second.xml
+将删除 app/src/test/
+将删除 navigation-controller/bintray.gradle
+将删除 navigation-controller/libs/
+将删除 navigation-controller/src/androidTest/
+将删除 navigation-controller/src/main/res/drawable/
+将删除 navigation-controller/src/test/
+将删除 org.apache.http.NoHttpResponseException:

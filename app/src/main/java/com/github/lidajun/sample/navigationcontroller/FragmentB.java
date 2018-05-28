@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragment;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragmentV4;
 
 /**
  * Created by lidajun on 17-6-27.
  */
 
-public class FragmentB extends NavigationFragment {
+public class FragmentB extends NavigationFragmentV4 {
 
     private ViewPager mViewPager;
 

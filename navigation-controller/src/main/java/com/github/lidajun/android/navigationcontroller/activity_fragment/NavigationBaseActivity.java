@@ -2,6 +2,7 @@ package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.animation.ValueAnimator;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
     protected int edgeTimes = 2;
     //回退的前缀
     public String backPrefix = "<";
+    Drawable defaultBackground;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,6 +150,10 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
      */
     void unRegisterNavigationTouchListener(NavigationTouchListener listener) {
         mListeners.remove(listener);
+    }
+
+    public void setDefaultBackground(Drawable drawable){
+        defaultBackground = drawable;
     }
 
     abstract View getNavigationView();

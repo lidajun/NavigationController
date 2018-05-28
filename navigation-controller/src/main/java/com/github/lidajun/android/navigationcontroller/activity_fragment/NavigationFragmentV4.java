@@ -47,11 +47,16 @@ public abstract class NavigationFragmentV4 extends android.support.v4.app.Fragme
 
     /**
      * 添加toolbarTitle
+     * @param title t
      */
     public void setToolbarTitle(String title) {
         toolbarTitle = title;
     }
 
+    /**
+     * 添加toolbarTitle
+     * @param resId s
+     */
     public void setToolbarTitle(@StringRes int resId) {
         toolbarTitle = getString(resId);
     }

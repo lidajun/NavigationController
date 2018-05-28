@@ -13,7 +13,7 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.github.lidajun.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -23,7 +23,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.github.lidajun.android:navigation-controller:1.1.2'
+compile 'com.github.lidajun.android:navigation-controller:1.1.3'
 ```
 
 ------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.github.lidajun.android:navigation-controller:1.1.2'
+compile 'com.github.lidajun.android:navigation-controller:1.1.3'
 ```
 2:如果使用Toolbar，需要使用NavigationToolbar。默认会增加一个title的切换动画。不使用请忽略
 ```xml

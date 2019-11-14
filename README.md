@@ -50,7 +50,6 @@ If using Toolbar, you need to use NavigationToolbar. Default will increase the t
 setToolbarTitle("FragmentA");
 ```
 Let your activity inherit NavigationActivity
-    The difference is that you are not using the v4 package fragment
     If you use the toolbar to return your toolbar in initNavigationToolbar, return null if not used;
 ```
 @Override

@@ -1,13 +1,13 @@
 package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import com.github.lidajun.android.navigationcontroller.R;
 
 import java.util.ArrayList;
@@ -47,9 +47,9 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
     @SuppressLint("CommitTransaction")
     private FragmentTransaction getHideAndSetAnimationsTransaction(@IdRes int resId, @NonNull Fragment fragment, @Nullable String tag) {
         if (hasOffset) {
-            return getFragmentManager().beginTransaction().hide(mFragments.get(mFragments.size() - 1)).add(resId, fragment, tag).addToBackStack(null).setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit);
+            return getSupportFragmentManager().beginTransaction().hide(mFragments.get(mFragments.size() - 1)).add(resId, fragment, tag).addToBackStack(null).setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit);
         } else {
-            return getFragmentManager().beginTransaction().hide(mFragments.get(mFragments.size() - 1)).add(resId, fragment, tag).addToBackStack(null).setCustomAnimations(R.animator.fragment_slide_left_enter, 0);
+            return getSupportFragmentManager().beginTransaction().hide(mFragments.get(mFragments.size() - 1)).add(resId, fragment, tag).addToBackStack(null).setCustomAnimations(R.animator.fragment_slide_left_enter, 0);
         }
     }
 
@@ -67,7 +67,7 @@ public abstract class NavigationActivity extends NavigationBaseActivity {
 
     @SuppressLint("CommitTransaction")
     private FragmentTransaction getAddFragmentTransaction(@IdRes int resId, @NonNull Fragment fragment, @Nullable String tag) {
-        return getFragmentManager().beginTransaction().add(resId, fragment, tag).addToBackStack(null);
+        return getSupportFragmentManager().beginTransaction().add(resId, fragment, tag).addToBackStack(null);
     }
 
     /**

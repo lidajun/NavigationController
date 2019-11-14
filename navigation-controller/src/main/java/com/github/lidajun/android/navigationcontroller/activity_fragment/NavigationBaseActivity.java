@@ -5,12 +5,12 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.github.lidajun.android.navigationcontroller.listener.NavigationTouchListener;
 import com.github.lidajun.android.navigationcontroller.utils.DisplayUtil;
 import com.github.lidajun.android.navigationcontroller.utils.ScreenUtil;
@@ -179,7 +179,7 @@ abstract class NavigationBaseActivity extends AppCompatActivity {
                     if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                         getSupportFragmentManager().popBackStack();
                     } else {
-                        getFragmentManager().popBackStack();
+                        getSupportFragmentManager().popBackStack();
                     }
                     viewChange(mListeners.size() - 2);
                 }

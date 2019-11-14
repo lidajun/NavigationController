@@ -1,21 +1,21 @@
 package com.github.lidajun.sample.navigationcontroller;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragmentV4;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragment;
 
 /**
  * Created by lidajun on 17-6-27.
  */
 
-public class FragmentB extends NavigationFragmentV4 {
+public class FragmentB extends NavigationFragment {
 
     private ViewPager mViewPager;
 
@@ -41,7 +41,7 @@ public class FragmentB extends NavigationFragmentV4 {
     }
 
     private void initViewPager(View view) {
-        mViewPager = ((ViewPager) view.findViewById(R.id.view_pager));
+        mViewPager = view.findViewById(R.id.view_pager);
         mViewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {

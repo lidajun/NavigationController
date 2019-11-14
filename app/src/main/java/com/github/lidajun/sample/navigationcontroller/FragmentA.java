@@ -1,20 +1,20 @@
 package com.github.lidajun.sample.navigationcontroller;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationActivityV4;
-import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragmentV4;
+import androidx.annotation.Nullable;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationActivity;
+import com.github.lidajun.android.navigationcontroller.activity_fragment.NavigationFragment;
 
 
 /**
  * Created by lidajun on 17-6-27.
  */
 
-public class FragmentA extends NavigationFragmentV4 {
+public class FragmentA extends NavigationFragment {
 
     @Nullable
     @Override
@@ -25,11 +25,11 @@ public class FragmentA extends NavigationFragmentV4 {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarTitle("FragA");
+        setToolbarTitle("FragmentA");
         view.findViewById(R.id.btn_click).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NavigationActivityV4) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
+                ((NavigationActivity) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
             }
         });
     }

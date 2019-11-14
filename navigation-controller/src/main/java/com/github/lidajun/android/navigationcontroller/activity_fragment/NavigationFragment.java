@@ -1,14 +1,14 @@
 package com.github.lidajun.android.navigationcontroller.activity_fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import com.github.lidajun.android.navigationcontroller.listener.NavigationTouchListener;
 import com.github.lidajun.android.navigationcontroller.listener.PopBackListener;
 

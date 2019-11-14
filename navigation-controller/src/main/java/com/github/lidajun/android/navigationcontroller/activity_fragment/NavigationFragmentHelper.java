@@ -5,13 +5,13 @@ import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import com.github.lidajun.android.navigationcontroller.listener.PopBackListener;
 import com.github.lidajun.android.navigationcontroller.utils.DisplayUtil;
 import com.github.lidajun.android.navigationcontroller.utils.ScreenUtil;

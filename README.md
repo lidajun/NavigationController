@@ -13,7 +13,7 @@ Download or grab via Maven:
 <dependency>
   <groupId>com.github.lidajun.android</groupId>
   <artifactId>navigation-controller</artifactId>
-  <version>1.1.3</version>
+  <version>2.0.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -23,11 +23,11 @@ repositories {
     jcenter()
 }
 
-compile 'com.github.lidajun.android:navigation-controller:1.1.3'
+compile 'com.github.lidajun.android:navigation-controller:2.0.0'
 ```
 
 ------------------------------------------------------------------------------
-Suitable for use with fragment projects, fragment need extends to NavigationFragment or NavigationFragmentV4;Activity that contains fragment needs to inherit NavigationActivity or NavigationActivityV4.
+Suitable for use with fragment projects, fragment need extends to NavigationFragment;Activity that contains fragment needs to inherit NavigationActivity.
 
 If using Toolbar, you need to use NavigationToolbar. Default will increase the title of a switching animation. Please ignore if not used
 ```xml
@@ -49,7 +49,7 @@ If using Toolbar, you need to use NavigationToolbar. Default will increase the t
 ```
 setToolbarTitle("FragmentA");
 ```
-Let your activity inherit NavigationActivity or NavigationActivityV4
+Let your activity inherit NavigationActivity
     The difference is that you are not using the v4 package fragment
     If you use the toolbar to return your toolbar in initNavigationToolbar, return null if not used;
 ```
@@ -65,7 +65,7 @@ add fragment in activity：
 ((NavigationActivity) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
 ```
 
-Let your fragment inherit NavigationFragment or NavigationFragmentV4
+Let your fragment inherit NavigationFragment
 
 other:
 You can get the slide of fragment via viewChange (float page), starting with 0. Please ignore if not used
@@ -73,7 +73,13 @@ You can get the slide of fragment via viewChange (float page), starting with 0. 
     public void viewChange(float page) {
     }
 ```
-
+ps:
+If you are not using the androidx version of Fragment, please use version 1.1.3
+Let your activity inherit NavigationActivity or NavigationActivityV4
+Let your fragment inherit NavigationFragment or NavigationFragmentV4
+```
+compile 'com.github.lidajun.android:navigation-controller:1.1.3'
+```
 --------------------------------------------------------------------------------
 
 用过iOS都知道iOS大多app都可以划动界面回退到一下页面，这个是iOS官方提供的一个叫NavigationController的功能。想实现一个一样的，找github，没找到合适了。自己写一个分享出来吧。
@@ -85,7 +91,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.github.lidajun.android:navigation-controller:1.1.3'
+compile 'com.github.lidajun.android:navigation-controller:2.0.0'
 ```
 2:如果使用Toolbar，需要使用NavigationToolbar。默认会增加一个title的切换动画。不使用请忽略
 ```xml
@@ -107,8 +113,7 @@ compile 'com.github.lidajun.android:navigation-controller:1.1.3'
 ```
 setToolbarTitle("FragmentA");
 ```
-3:让你的activity继承NavigationActivity或NavigationActivityV4
-   区别就是你是不是使用的v4包的fragment
+3:让你的activity继承NavigationActivity
    如果使用toolbar就在initNavigationToolbar返回你的toolbar，不使用请忽略;
 ```
 @Override
@@ -124,12 +129,20 @@ protected NavigationToolbar initNavigationToolbar() {
 ((NavigationActivity) getActivity()).addAndCommitFragment(R.id.frameLayout, new FragmentB());
 ```
 
-4:让你的fragment继承NavigationFragment或NavigationFragmentV4
+4:让你的fragment继承NavigationFragment
 其它：
 你可以通过viewChange(float page)方法获得fragment的滑动，从0开始。不使用请忽略
 ```
     public void viewChange(float page) {
     }
+```
+
+ps:
+如果没有使用androidx版本的Fragment,请使用1.1.3版本
+让你的activity继承NavigationActivity或NavigationActivityV4
+让你的fragment继承NavigationFragment或NavigationFragmentV4
+```
+compile 'com.github.lidajun.android:navigation-controller:1.1.3'
 ```
 
 License
